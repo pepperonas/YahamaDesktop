@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXDialog?><?import com.jfoenix.controls.JFXDialogLayout?><?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+    fx:controller="io.celox.dialog.DialogController" fx:id="stackPane">
+    <JFXDialog fx:id="dialog">
+        <JFXDialogLayout>
+            <heading></heading>
+            <body></body>
+            <actions>
+                <JFXButton fx:id="acceptButton" styleClass="dialog-accept">ACCEPT</JFXButton>
+            </actions>
+        </JFXDialogLayout>
+    </JFXDialog>
+</StackPane>
