@@ -15,7 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,7 +57,7 @@ import javafx.util.Duration;
 
 /**
  * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Main extends Application {
@@ -88,8 +90,11 @@ public class Main extends Application {
     private Rectangle signalInfoRect;
     private TextArea textAreaPlayInfo;
     private Parent root;
+    private Text mDeviceIp;
 
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -118,6 +123,8 @@ public class Main extends Application {
 
         stage.show();
 
+        mDeviceIp = (Text) root.lookup(Const.ID_TV_DEVICE_IP);
+
         initMenuBar(root);
 
         Shortcut.setShortcutsForMain(stage.getScene(), stage, this);
@@ -141,7 +148,17 @@ public class Main extends Application {
                 protected Void call() throws Exception {
                     mAmplifierIp = null;
 
+                    Enumeration e = NetworkInterface.getNetworkInterfaces();
+                    //                    while (e.hasMoreElements()) {
+                    //                        NetworkInterface n = (NetworkInterface) e.nextElement();
+                    //                        Enumeration ee = n.getInetAddresses();
+                    //                        while (ee.hasMoreElements()) {
+                    //                            InetAddress i = (InetAddress) ee.nextElement();
+                    //                            System.out.println(i.getHostAddress());
+
                     String ip = InetAddress.getLocalHost().getHostAddress();
+                    //                            if (ip.startsWith("127.")) continue;
+
                     int subnetLength = ip.lastIndexOf(".");
                     String subnet = ip.substring(0, subnetLength);
 
@@ -149,6 +166,8 @@ public class Main extends Application {
                     int _ip = 1;
                     while (_ip < 255 && mAmplifierIp == null) {
                         String host = subnet + "." + _ip;
+                        Log.i(TAG, "call: host=" + host);
+                        mDeviceIp.setText(host);
                         if (InetAddress.getByName(host).isReachable(timeout)) {
                             Log.i(TAG, "mServiceConnect");
                             System.out.println("'" + host + "' is reachable");
@@ -159,9 +178,12 @@ public class Main extends Application {
 
                     mAmp.setIp(mAmplifierIp);
 
+                    //                        }
+                    //                    }
                     return null;
                 }
             };
+
         }
 
         @Override
@@ -208,7 +230,9 @@ public class Main extends Application {
         menubar.getMenus().get(Const.MENU_HELP).getItems().get(0).setText(Utils.mkUtf8(mRbLang, "menuHelpAbout"));
     }
 
-    private void initOnCloseAction(Stage stage) { stage.setOnCloseRequest(event -> exitApp()); }
+    private void initOnCloseAction(Stage stage) {
+        stage.setOnCloseRequest(event -> exitApp());
+    }
 
     public void exitApp() {
         System.out.println("exitApp()");
@@ -525,11 +549,17 @@ public class Main extends Application {
         initMenuBar(scene.getRoot());
     }
 
-    public Stage getStage() { return stage; }
+    public Stage getStage() {
+        return stage;
+    }
 
-    public Scene getScene() { return scene; }
+    public Scene getScene() {
+        return scene;
+    }
 
-    public Slider getVolumeSlider() { return sliderVolume; }
+    public Slider getVolumeSlider() {
+        return sliderVolume;
+    }
 
     private FadeTransition getFadeTransition() {
         return FadeTransitionBuilder.create().duration(Duration.millis(Setup.getAutoRefreshInterval())).node(signalInfoRect)
