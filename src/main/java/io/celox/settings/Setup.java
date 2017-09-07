@@ -53,4 +53,12 @@ public class Setup {
     public static int getAutoRefreshInterval() {
         return Preferences.userNodeForPackage(Setup.class).getInt("refresh_interval", 1500);
     }
+
+    public static void setAmpIp(String amplifierIp) {
+        Preferences.userNodeForPackage(Setup.class).put("amplifier_ip", amplifierIp);
+    }
+
+    public static String getAmpIp() {
+        return Preferences.userNodeForPackage(Setup.class).get("amplifier_ip", "");
+    }
 }

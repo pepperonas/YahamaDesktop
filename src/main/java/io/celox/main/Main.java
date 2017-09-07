@@ -15,9 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,7 +55,7 @@ import javafx.util.Duration;
 
 /**
  * @author Martin Pfeffer
- * <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Main extends Application {
@@ -130,10 +128,10 @@ public class Main extends Application {
         Shortcut.setShortcutsForMain(stage.getScene(), stage, this);
         initOnCloseAction(stage);
 
-        if (FxAesPrefs.get("device_ip", "").isEmpty()) {
+        if (Setup.getAmpIp().isEmpty()) {
             mServiceConnect.start();
         } else {
-            mAmplifierIp = FxAesPrefs.get("device_ip", "");
+            mAmplifierIp = Setup.getAmpIp();
             mAmp.setIp(mAmplifierIp);
             startRefreshGuiTask();
         }
@@ -148,16 +146,7 @@ public class Main extends Application {
                 protected Void call() throws Exception {
                     mAmplifierIp = null;
 
-                    Enumeration e = NetworkInterface.getNetworkInterfaces();
-                    //                    while (e.hasMoreElements()) {
-                    //                        NetworkInterface n = (NetworkInterface) e.nextElement();
-                    //                        Enumeration ee = n.getInetAddresses();
-                    //                        while (ee.hasMoreElements()) {
-                    //                            InetAddress i = (InetAddress) ee.nextElement();
-                    //                            System.out.println(i.getHostAddress());
-
                     String ip = InetAddress.getLocalHost().getHostAddress();
-                    //                            if (ip.startsWith("127.")) continue;
 
                     int subnetLength = ip.lastIndexOf(".");
                     String subnet = ip.substring(0, subnetLength);
@@ -178,8 +167,6 @@ public class Main extends Application {
 
                     mAmp.setIp(mAmplifierIp);
 
-                    //                        }
-                    //                    }
                     return null;
                 }
             };
@@ -268,6 +255,7 @@ public class Main extends Application {
             dos.close();
 
             if (con.getResponseCode() == 200) {
+                Setup.setAmpIp(amplifierIp);
                 return amplifierIp;
             }
 
