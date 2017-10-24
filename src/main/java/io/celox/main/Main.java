@@ -129,7 +129,7 @@ public class Main extends Application {
         initOnCloseAction(stage);
 
         if (Setup.getAmpIp().isEmpty()) {
-            mServiceConnect.start();
+//            mServiceConnect.start();
         } else {
             mAmplifierIp = Setup.getAmpIp();
             mAmp.setIp(mAmplifierIp);

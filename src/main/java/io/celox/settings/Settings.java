@@ -2,6 +2,7 @@ package io.celox.settings;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import com.pepperonas.jbasx.log.Log;
 
 import java.io.IOException;
@@ -24,8 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * @author Martin Pfeffer <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Settings {
@@ -38,6 +38,8 @@ public class Settings {
     private JFXComboBox choiceBoxLanguage, choiceBoxVolSteps, choiceBoxRefreshInterval;
 
     private JFXCheckBox checkBoxPwrOffExit;
+
+    private JFXTextField textFieldDeviceIp;
 
     public Settings(Main main) {
         this.mMain = main;
@@ -116,6 +118,13 @@ public class Settings {
             updateLanguage(settingsStage, root);
         });
         choiceBoxLanguage.getSelectionModel().select(selectedLang);
+
+        textFieldDeviceIp = (JFXTextField) root.lookup("#textFieldDeviceIp");
+        textFieldDeviceIp.textProperty().addListener((observable, oldValue, newValue) -> {
+            Log.i(TAG, "changed: " + newValue);
+            Setup.setAmpIp(newValue);
+        });
+
         return scene;
     }
 
