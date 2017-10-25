@@ -39,9 +39,9 @@
                     </font>
                 </Text>
                 <JFXTextField fx:id="textFieldDeviceIp"
-                              text="Device IP" GridPane.columnSpan="3" GridPane.rowIndex="1"/>
-                <JFXCheckBox fx:id="checkBoxPwrOffExit" mnemonicParsing="false"
-                             text="Power-Off when exit" GridPane.columnSpan="3" GridPane.rowIndex="2"/>
+                              text="Device IP" GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+                <JFXCheckBox fx:id="checkBoxPwrOffExit" mnemonicParsing="false" GridPane.columnIndex="2"
+                             text="Power-Off when exit" GridPane.columnSpan="3" GridPane.rowIndex="1"/>
                 <!--<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Theme" GridPane.rowIndex="5" />-->
                 <Text fx:id="tvLanguage" strokeType="OUTSIDE" strokeWidth="0.0" text="Language"
                       GridPane.rowIndex="3"/>

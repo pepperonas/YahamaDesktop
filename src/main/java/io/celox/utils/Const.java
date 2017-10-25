@@ -1,8 +1,7 @@
 package io.celox.utils;
 
 /**
- * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * @author Martin Pfeffer <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Const {
@@ -34,7 +33,6 @@ public class Const {
 
     public static final String ID_SLIDER = "#sliderVolume";
     public static final String ID_TV_DEVICE_IP = "#tvDeviceIp";
-    public static final String ID_TV_VOLUME = "#tvVolume";
 
     public static final String ID_CHOICE_BOX_INPUT_SELECT = "#choiceBoxInputSelect";
     public static final String ID_BTN_OPEN_SETTINGS = "#btnOpenSettings";
@@ -44,13 +42,13 @@ public class Const {
     public static final String ID_MENU_FILE_EXIT = "#menu_file_exit";
 
     public static final String ID_TV_USABILITY = "#tvUsability";
-    public static final String ID_TV_LOOK_AND_FEEL = "#tvLookAndFeel";
     public static final String ID_TV_LANGUAGE = "#tvLanguage";
 
     public static final String ID_TV_VOL_STEPS = "#tvVolSteps";
     public static final String ID_TV_REFRESH_INTERVAL = "#tvRefreshInterval";
     public static final String ID_CHOICE_BOX_REFRESH_INTERVAL = "#choiceBoxRefreshInterval";
     public static final String ID_CHOICE_BOX_VOL_STEPS = "#choiceBoxVolSteps";
+    public static final String ID_TF_DEVICE_IP = "#textFieldDeviceIp";
 
     public static final String ID_CHOICE_BOX_LANGUAGE = "#choiceBoxLanguage";
     public static final int MENU_FILE = 0;

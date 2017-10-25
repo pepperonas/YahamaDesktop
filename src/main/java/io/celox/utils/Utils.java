@@ -5,13 +5,27 @@ import java.io.UnsupportedEncodingException;
 import java.util.ResourceBundle;
 
 import io.celox.settings.Setup;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
- * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * @author Martin Pfeffer <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Utils {
+
+    public static void closeOnEsc(Parent root, Scene scene) {
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, t -> {
+            if (t.getCode() == KeyCode.ESCAPE) {
+                System.out.println("-ESC- pressed, closing stage...");
+                Stage sb = (Stage) root.getScene().getWindow();
+                sb.close();
+            }
+        });
+    }
 
     public static ResourceBundle getUTFResourceBundle() throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

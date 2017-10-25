@@ -54,8 +54,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * @author Martin Pfeffer <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class Main extends Application {
@@ -88,11 +87,7 @@ public class Main extends Application {
     private Rectangle signalInfoRect;
     private TextArea textAreaPlayInfo;
     private Parent root;
-    private Text mDeviceIp;
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private Text deviceIp;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -121,7 +116,7 @@ public class Main extends Application {
 
         stage.show();
 
-        mDeviceIp = (Text) root.lookup(Const.ID_TV_DEVICE_IP);
+        deviceIp = (Text) root.lookup(Const.ID_TV_DEVICE_IP);
 
         initMenuBar(root);
 
@@ -138,16 +133,13 @@ public class Main extends Application {
     }
 
     private Service<Void> mServiceConnect = new Service<Void>() {
-
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     mAmplifierIp = null;
-
                     String ip = InetAddress.getLocalHost().getHostAddress();
-
                     int subnetLength = ip.lastIndexOf(".");
                     String subnet = ip.substring(0, subnetLength);
 
@@ -156,7 +148,7 @@ public class Main extends Application {
                     while (_ip < 255 && mAmplifierIp == null) {
                         String host = subnet + "." + _ip;
                         Log.i(TAG, "call: host=" + host);
-                        mDeviceIp.setText(host);
+                        deviceIp.setText(host);
                         if (InetAddress.getByName(host).isReachable(timeout)) {
                             Log.i(TAG, "mServiceConnect");
                             System.out.println("'" + host + "' is reachable");
@@ -164,21 +156,16 @@ public class Main extends Application {
                         }
                         _ip++;
                     }
-
                     mAmp.setIp(mAmplifierIp);
-
                     return null;
                 }
             };
-
         }
 
         @Override
         protected void succeeded() {
             super.succeeded();
-
             FxAesPrefs.put("device_ip", mAmplifierIp);
-
             startRefreshGuiTask();
         }
     };
@@ -222,7 +209,7 @@ public class Main extends Application {
     }
 
     public void exitApp() {
-        System.out.println("exitApp()");
+        Log.i(TAG, "exitApp()");
 
         if (Setup.getPwrOffWhenExit()) {
             execCommand(Commands.CMD_PWR(Amplifier.STANDBY));
@@ -311,7 +298,6 @@ public class Main extends Application {
             StringBuilder response = collectData(con, is);
 
             mAmp.updateAmpVars(response);
-
             mAmp.dbgMsg();
 
             Log.i(TAG, "initAmplifier (Re)initAmplifier: " + (System.currentTimeMillis() - sTime + " ms") + "\n"
@@ -322,15 +308,18 @@ public class Main extends Application {
         }
 
         Platform.runLater(() -> {
-            if (sliderVolume != null) sliderVolume.setValue((int) mAmp.getVolume());
+            if (sliderVolume != null) {
+                sliderVolume.setValue((int) mAmp.getVolume());
+            }
 
-            if (tglBtnMute != null) tglBtnMute.setSelected(mAmp.isMute());
+            if (tglBtnMute != null) {
+                tglBtnMute.setSelected(mAmp.isMute());
+            }
 
             if (choiceBoxInputSelect != null && !choiceBoxInputSelect.isShowing()) {
                 choiceBoxInputSelect.setValue(mAmp.getActiveInput());
                 choiceBoxInputSelect.getSelectionModel().select(Amplifier.getInputPosition(mAmp.getActiveInput()));
             }
-
         });
 
         FadeTransition fadeTransition = getFadeTransition();
@@ -387,8 +376,7 @@ public class Main extends Application {
                 showTrackInfoInTextBox(response.toString());
             }
 
-            FadeTransition fadeTransition = getFadeTransition();
-            fadeTransition.play();
+            playAnimation();
 
         } catch (Exception e) {
             Log.i(TAG, "execCommand: Execution failed ( " + e.getMessage() + ").");
@@ -396,6 +384,13 @@ public class Main extends Application {
 
         if (action.contains(Amplifier.NET_RADIO) || action.contains(Amplifier.SPOTIFY)) {
             initAmplifier();
+        }
+    }
+
+    private void playAnimation() {
+        if (!signalInfoRect.isVisible()) {
+            signalInfoRect.setVisible(true);
+            fadeIn.playFromStart();
         }
     }
 
@@ -446,6 +441,10 @@ public class Main extends Application {
     }
 
     private void initGui() {
+        Log.i(TAG, "initGui()");
+        updateLanguage();
+        initialize();
+
         Text tvDeviceIp = (Text) scene.lookup(Const.ID_TV_DEVICE_IP);
         tvDeviceIp.setText(mAmp.getIp());
 
@@ -468,8 +467,24 @@ public class Main extends Application {
         JFXButton btnVolumeUp = (JFXButton) scene.lookup(Const.ID_BTN_VOL_UP);
         JFXButton btnVolumeDown = (JFXButton) scene.lookup(Const.ID_BTN_VOL_DOWN);
 
-        btnVolumeUp.setOnAction(actionEvent -> sliderVolume.increment());
-        btnVolumeDown.setOnAction(actionEvent -> sliderVolume.decrement());
+        sliderVolume = (JFXSlider) scene.lookup(Const.ID_SLIDER);
+        sliderVolume.setSnapToTicks(false);
+        sliderVolume.disableProperty().bind(tglBtnMute.selectedProperty());
+
+        btnVolumeUp.setOnAction(actionEvent -> {
+            double val = sliderVolume.getValue();
+            Log.i(TAG, "[+] oldVal=" + val);
+            val += Setup.getVolSteps();
+            Log.w(TAG, "[+] newVal=" + val);
+            sliderVolume.setValue(val);
+        });
+        btnVolumeDown.setOnAction(actionEvent -> {
+            double val = sliderVolume.getValue();
+            Log.i(TAG, "[-] oldVal=" + val);
+            val -= Setup.getVolSteps();
+            Log.w(TAG, "[-] newVal=" + val);
+            sliderVolume.setValue(val);
+        });
 
         choiceBoxInputSelect = (JFXComboBox) scene.lookup(Const.ID_CHOICE_BOX_INPUT_SELECT);
         choiceBoxInputSelect.getItems().addAll(Amplifier.inputs);
@@ -478,8 +493,6 @@ public class Main extends Application {
             execCommand(Commands.CMD_SELECT_INPUT((String) newValue));
         });
 
-        sliderVolume = (JFXSlider) scene.lookup(Const.ID_SLIDER);
-        sliderVolume.disableProperty().bind(tglBtnMute.selectedProperty());
         btnVolumeUp.disableProperty().bind(tglBtnMute.selectedProperty());
         btnVolumeDown.disableProperty().bind(tglBtnMute.selectedProperty());
 
@@ -523,7 +536,7 @@ public class Main extends Application {
     }
 
     public void updateLanguage() {
-        mRbLang = ResourceBundle.getBundle("bundles.LangBundle", Setup.getAppsLocale());
+        mRbLang = ResourceBundle.getBundle("LangBundle", Setup.getAppsLocale());
 
         JFXButton btnSettings = (JFXButton) scene.lookup(Const.ID_BTN_OPEN_SETTINGS);
         btnSettings.setText(Utils.mkUtf8(mRbLang, "la_settings"));
@@ -549,9 +562,25 @@ public class Main extends Application {
         return sliderVolume;
     }
 
+    private FadeTransition fadeIn = new FadeTransition(
+            Duration.millis(3000)
+    );
+
+    public void initialize() {
+        fadeIn.setNode(signalInfoRect);
+        fadeIn.setFromValue(0.0);
+        fadeIn.setToValue(1.0);
+        fadeIn.setCycleCount(1);
+        fadeIn.setAutoReverse(false);
+    }
+
     private FadeTransition getFadeTransition() {
         return FadeTransitionBuilder.create().duration(Duration.millis(Setup.getAutoRefreshInterval())).node(signalInfoRect)
                 .fromValue(1).toValue(0).cycleCount(0).autoReverse(true).build();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
 }

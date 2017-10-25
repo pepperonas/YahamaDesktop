@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXSlider;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import io.celox.dialog.JfxDialog;
+import io.celox.dialog.DialogAbout;
 import io.celox.settings.Settings;
 import io.celox.utils.Commands;
 import io.celox.utils.Conversion;
@@ -16,12 +16,12 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.text.Text;
 
 /**
- * @author Martin Pfeffer
- *         <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ * @author Martin Pfeffer <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  * @see <a href="https://celox.io">https://celox.io</a>
  */
 public class MainController implements Initializable {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "SettingsController";
 
     public Text tvVolume;
@@ -29,7 +29,7 @@ public class MainController implements Initializable {
 
     private Main mMain;
 
-    public void setMain(Main main) { this.mMain = main; }
+    void setMain(Main main) { this.mMain = main; }
 
     public void onVolumeScroll(Event event) {
         ScrollEvent se = (ScrollEvent) event;
@@ -49,9 +49,10 @@ public class MainController implements Initializable {
                 tvVolume.setText(String.valueOf(roundToHalf(sliderVolume.valueProperty().doubleValue())) + " dB");
             }
         });
+
     }
 
-    public static double roundToHalf(double d) {
+    private static double roundToHalf(double d) {
         return Math.round(d * 2) / 2.0;
     }
 
@@ -60,6 +61,6 @@ public class MainController implements Initializable {
     }
 
     public void onAbout(ActionEvent actionEvent) {
-        new JfxDialog(getClass(), "ABOUT", "Created by Martin Pfeffer - celox.io (2015-2017)");
+        new DialogAbout(mMain);
     }
 }

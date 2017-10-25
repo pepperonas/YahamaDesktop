@@ -64,7 +64,7 @@ jfx {
     jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
-    nativeReleaseVersion = "0.0.2-beta"
+    nativeReleaseVersion = "0.0.3-beta"
     versionName = nativeReleaseVersion
     needShortcut = false
     needMenu = false

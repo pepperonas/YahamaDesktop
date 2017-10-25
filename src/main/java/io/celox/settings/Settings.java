@@ -3,9 +3,10 @@ package io.celox.settings;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.pepperonas.jbasx.log.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -30,23 +31,19 @@ import javafx.stage.StageStyle;
  */
 public class Settings {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "Settings";
 
     private Main mMain;
     private ResourceBundle mRbLang;
 
-    private JFXComboBox choiceBoxLanguage, choiceBoxVolSteps, choiceBoxRefreshInterval;
+    private JFXComboBox choiceBoxVolSteps, choiceBoxRefreshInterval;
 
     private JFXCheckBox checkBoxPwrOffExit;
 
-    private JFXTextField textFieldDeviceIp;
-
     public Settings(Main main) {
         this.mMain = main;
-
         mRbLang = ResourceBundle.getBundle("LangBundle", Setup.getAppsLocale());
-
-        Log.i(TAG, "Settings: " + Utils.mkUtf8(mRbLang, "menuHelp"));
 
         Stage primaryStage = new Stage(StageStyle.UTILITY);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -68,6 +65,7 @@ public class Settings {
     private void load(Stage primaryStage, FXMLLoader loader) throws java.io.IOException {
         final Parent root = loader.load();
         Scene scene = initScene(primaryStage, root);
+        Utils.closeOnEsc(root, scene);
     }
 
     private Scene initScene(Stage settingsStage, Parent root) {
@@ -91,7 +89,7 @@ public class Settings {
         choiceBoxVolSteps = (JFXComboBox) root.lookup(Const.ID_CHOICE_BOX_VOL_STEPS);
         choiceBoxVolSteps.getItems().clear();
 
-        double[] volSteps = {2.5d, 5.0d, 10.0d};
+        double[] volSteps = {0.5d, 1.0d, 2.5d, 5.0d};
         for (double d : volSteps) choiceBoxVolSteps.getItems().add(d);
         choiceBoxVolSteps.valueProperty().addListener((observable, oldValue, newValue) -> {
             Setup.setVolSteps((Double) choiceBoxVolSteps.getValue());
@@ -100,30 +98,27 @@ public class Settings {
         });
         choiceBoxVolSteps.setValue(Setup.getVolSteps());
 
-        choiceBoxLanguage = (JFXComboBox) root.lookup(Const.ID_CHOICE_BOX_LANGUAGE);
+        JFXComboBox<Locale> choiceBoxLanguage = (JFXComboBox) root.lookup(Const.ID_CHOICE_BOX_LANGUAGE);
         choiceBoxLanguage.getItems().clear();
-        String[] locales = mRbLang.getString("la_languages").split(",");
-        int i = 0, selectedLang = -1;
-        for (String s : locales) {
-            if (s.equals(Setup.getAppsLocale().getLanguage())) selectedLang = i;
-            //            Locale tmpLocale = LocaleUtils.toLocale(s);
-            choiceBoxLanguage.getItems().addAll(s);
-            i++;
-        }
-
+        List<Locale> locales = new ArrayList<>();
+        locales.add(Locale.ENGLISH);
+        locales.add(Locale.GERMAN);
+        choiceBoxLanguage.getItems().addAll(locales);
         choiceBoxLanguage.valueProperty().addListener((observable, oldValue, newValue) -> {
-            int selected = choiceBoxLanguage.getSelectionModel().getSelectedIndex();
-            Locale locale = new Locale(locales[selected]);
-            Setup.setAppsLocale(locale);
+            Setup.setAppsLocale(newValue);
             updateLanguage(settingsStage, root);
         });
-        choiceBoxLanguage.getSelectionModel().select(selectedLang);
+        Locale l = Setup.getAppsLocale();
+        choiceBoxLanguage.getSelectionModel().select(l);
 
-        textFieldDeviceIp = (JFXTextField) root.lookup("#textFieldDeviceIp");
+        JFXTextField textFieldDeviceIp = (JFXTextField) root.lookup(Const.ID_TF_DEVICE_IP);
         textFieldDeviceIp.textProperty().addListener((observable, oldValue, newValue) -> {
-            Log.i(TAG, "changed: " + newValue);
             Setup.setAmpIp(newValue);
         });
+        String deviceIp = Setup.getAmpIp();
+        if (deviceIp != null && !deviceIp.isEmpty()) {
+            textFieldDeviceIp.setText(deviceIp);
+        }
 
         return scene;
     }
@@ -134,20 +129,17 @@ public class Settings {
         stage.setTitle(Utils.mkUtf8(mRbLang, "la_settings"));
 
         Text tvUsability = (Text) root.lookup(Const.ID_TV_USABILITY);
-        Text tvLookAndFeel = (Text) root.lookup(Const.ID_TV_LOOK_AND_FEEL);
         Text tvLanguage = (Text) root.lookup(Const.ID_TV_LANGUAGE);
         Text tvVolSteps = (Text) root.lookup(Const.ID_TV_VOL_STEPS);
         Text tvRefreshInterval = (Text) root.lookup(Const.ID_TV_REFRESH_INTERVAL);
 
         tvUsability.setText(Utils.mkUtf8(mRbLang, "usability"));
-        tvLookAndFeel.setText(Utils.mkUtf8(mRbLang, "look_and_feel"));
         tvLanguage.setText(Utils.mkUtf8(mRbLang, "language"));
         tvVolSteps.setText(Utils.mkUtf8(mRbLang, "volume_steps"));
         tvRefreshInterval.setText(Utils.mkUtf8(mRbLang, "refresh_interval"));
         checkBoxPwrOffExit.setText(Utils.mkUtf8(mRbLang, "pwr_off_exit"));
 
         mMain.updateLanguage();
-
     }
 
 }

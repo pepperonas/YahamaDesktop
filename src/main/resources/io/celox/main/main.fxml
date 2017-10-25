@@ -1,85 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXComboBox?><?import com.jfoenix.controls.JFXSlider?><?import com.jfoenix.controls.JFXToggleButton?><?import javafx.geometry.Insets?><?import javafx.scene.control.ListView?><?import javafx.scene.control.Menu?><?import javafx.scene.control.MenuBar?><?import javafx.scene.control.MenuItem?><?import javafx.scene.control.TextArea?><?import javafx.scene.control.ToolBar?><?import javafx.scene.layout.AnchorPane?><?import javafx.scene.layout.ColumnConstraints?><?import javafx.scene.layout.GridPane?><?import javafx.scene.layout.HBox?><?import javafx.scene.layout.RowConstraints?><?import javafx.scene.layout.VBox?><?import javafx.scene.shape.Rectangle?><?import javafx.scene.text.Text?>
-<AnchorPane fx:id="anchor_main" maxHeight="800.0" maxWidth="1200.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.celox.main.MainController">
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+<AnchorPane fx:id="anchor_main" maxHeight="800.0" maxWidth="1200.0" minHeight="400.0" minWidth="600.0"
+            prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.112"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.celox.main.MainController">
     <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <MenuBar fx:id="menubar">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Close" />
+                                <MenuItem mnemonicParsing="false" text="Close"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Settings">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#onAbout" text="About" />
+                                <MenuItem mnemonicParsing="false" onAction="#onAbout" text="About"/>
                             </items>
                         </Menu>
                     </menus>
                 </MenuBar>
-                <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+                <HBox maxWidth="1.7976931348623157E308">
                     <children>
                         <ToolBar maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                             <items>
-                                <JFXButton fx:id="btnVolDown" mnemonicParsing="false" text="Vol-" />
-                                <JFXButton fx:id="btnVolUp" mnemonicParsing="false" text="Vol+" />
-                                <JFXToggleButton fx:id="tglBtnMute" mnemonicParsing="false" text="Mute" />
+                                <JFXButton fx:id="btnVolDown" mnemonicParsing="false" text="Vol-"/>
+                                <JFXButton fx:id="btnVolUp" mnemonicParsing="false" text="Vol+"/>
+                                <JFXToggleButton fx:id="tglBtnMute" mnemonicParsing="false" text="Mute"/>
                             </items>
                         </ToolBar>
                         <ToolBar maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="NEVER">
                             <items>
-                                <JFXButton fx:id="btnOpenSettings" mnemonicParsing="false" onAction="#onSettings" text="SETTINGS" />
-                                <JFXToggleButton fx:id="tglBtnOnOff" mnemonicParsing="false" text="PWR" />
+                                <JFXButton fx:id="btnOpenSettings" mnemonicParsing="false" onAction="#onSettings"
+                                           text="SETTINGS"/>
+                                <JFXToggleButton fx:id="tglBtnOnOff" mnemonicParsing="false" text="PWR"/>
                             </items>
                         </ToolBar>
                     </children>
                 </HBox>
                 <GridPane fx:id="grid" alignment="center" hgap="10" vgap="10" VBox.vgrow="ALWAYS">
                     <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints />
-                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints/>
+                        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
                     </rowConstraints>
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input" GridPane.rowIndex="9" />
-                        <Text fx:id="tvVolume" strokeType="OUTSIDE" strokeWidth="0.0" text="xx dB" GridPane.columnIndex="6" GridPane.rowIndex="9" />
-                        <Text fx:id="tvDeviceIp" strokeType="OUTSIDE" strokeWidth="0.0" text="xxx.xxx.xxx" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <JFXSlider fx:id="sliderVolume" blockIncrement="2.0" majorTickUnit="5.0" max="0.0" min="-90.0" minorTickCount="1" onScroll="#onVolumeScroll" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="-65.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="9" />
-                        <JFXComboBox fx:id="choiceBoxInputSelect" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP:" GridPane.rowIndex="1" />
-                        <JFXButton fx:id="btnGetInfo" mnemonicParsing="false" text="Infos..." GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <TextArea fx:id="textAreaPlayInfo" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-                        <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.rowSpan="6" />
-                        <Rectangle fx:id="signalInfoRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" GridPane.columnIndex="6" GridPane.rowIndex="10" />
-                        <JFXButton fx:id="btnListReturn" mnemonicParsing="false" text="Return" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                        <JFXButton fx:id="btnNextPage" mnemonicParsing="false" text="-&gt;" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                        <JFXButton fx:id="btnPrevPage" mnemonicParsing="false" text="&lt;-" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                        <JFXButton fx:id="btnOk" mnemonicParsing="false" text="OK" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <JFXButton fx:id="btnPlay" mnemonicParsing="false" text="Play" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-                        <JFXButton fx:id="btnStop" mnemonicParsing="false" text="Stop" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input" GridPane.rowIndex="9"/>
+                        <Text fx:id="tvVolume" strokeType="OUTSIDE" strokeWidth="0.0" text="xx dB"
+                              GridPane.columnIndex="6" GridPane.rowIndex="9"/>
+                        <Text fx:id="tvDeviceIp" strokeType="OUTSIDE" strokeWidth="0.0" text="xxx.xxx.xxx"
+                              GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <JFXSlider fx:id="sliderVolume" blockIncrement="2.0" majorTickUnit="5.0" max="0.0" min="-90.0"
+                                   minorTickCount="1" onScroll="#onVolumeScroll" showTickLabels="true"
+                                   showTickMarks="true" snapToTicks="true" value="-65.0" GridPane.columnIndex="3"
+                                   GridPane.columnSpan="3" GridPane.rowIndex="9"/>
+                        <JFXComboBox fx:id="choiceBoxInputSelect" prefWidth="150.0" GridPane.columnIndex="2"
+                                     GridPane.rowIndex="9"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP:" GridPane.rowIndex="1"/>
+                        <JFXButton fx:id="btnGetInfo" mnemonicParsing="false" text="Infos..." GridPane.columnIndex="6"
+                                   GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
+                        <TextArea fx:id="textAreaPlayInfo" editable="false" prefHeight="200.0" prefWidth="200.0"
+                                  GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS"
+                                  GridPane.rowIndex="2" GridPane.rowSpan="5"/>
+                        <ListView fx:id="infoList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3"
+                                  GridPane.columnSpan="2" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1"
+                                  GridPane.rowSpan="6"/>
+                        <Rectangle fx:id="signalInfoRect" arcHeight="5.0" arcWidth="5.0" fill="#76C0BA" height="10.0"
+                                   stroke="#76C0BA" strokeType="INSIDE" width="10.0" GridPane.columnIndex="6"
+                                   GridPane.rowIndex="10"/>
+                        <JFXButton fx:id="btnListReturn" mnemonicParsing="false" text="Return" GridPane.columnIndex="6"
+                                   GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
+                        <JFXButton fx:id="btnNextPage" mnemonicParsing="false" text="-&gt;" GridPane.columnIndex="6"
+                                   GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+                        <JFXButton fx:id="btnPrevPage" mnemonicParsing="false" text="&lt;-" GridPane.columnIndex="6"
+                                   GridPane.rowIndex="3"/>
+                        <JFXButton fx:id="btnOk" mnemonicParsing="false" text="OK" GridPane.columnIndex="6"
+                                   GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+                        <JFXButton fx:id="btnPlay" mnemonicParsing="false" text="Play" GridPane.columnIndex="2"
+                                   GridPane.halignment="RIGHT" GridPane.rowIndex="8"/>
+                        <JFXButton fx:id="btnStop" mnemonicParsing="false" text="Stop" GridPane.columnIndex="2"
+                                   GridPane.halignment="LEFT" GridPane.rowIndex="8"/>
                     </children>
                     <VBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                     </VBox.margin>
                 </GridPane>
             </children>
