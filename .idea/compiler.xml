@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="av-controller.main" target="1.8" />
+      <module name="av-controller.test" target="1.8" />
       <module name="av-controller_main" target="1.8" />
       <module name="av-controller_test" target="1.8" />
     </bytecodeTargetLevel>

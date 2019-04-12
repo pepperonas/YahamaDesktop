@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/av-controller.iml" filepath="$PROJECT_DIR$/.idea/modules/av-controller.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/av-controller_main.iml" filepath="$PROJECT_DIR$/.idea/modules/av-controller_main.iml" group="av-controller" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/av-controller_test.iml" filepath="$PROJECT_DIR$/.idea/modules/av-controller_test.iml" group="av-controller" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/av-controller.main.iml" filepath="$PROJECT_DIR$/.idea/modules/av-controller.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/av-controller.test.iml" filepath="$PROJECT_DIR$/.idea/modules/av-controller.test.iml" />
     </modules>
   </component>
 </project>

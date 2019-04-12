@@ -1,7 +1,9 @@
 package io.celox.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import io.celox.settings.Setup;
@@ -47,6 +49,50 @@ public class Utils {
             e.printStackTrace();
         }
         return "rnf";
+    }
+
+    public static int getVersionFromProperties(Class clazz) {
+        InputStream in = null;
+        try {
+            in = clazz.getResource("/io/celox/main/app.properties").openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Properties props = new Properties();
+        try {
+            props.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String s = (String) props.get("version");
+        return Integer.parseInt(s);
+    }
+
+//    public static String getAppNameFromProperties(Class clazz) {
+//        InputStream in = clazz.getResourceAsStream("app.properties");
+//        Properties props = new Properties();
+//        try {
+//            props.load(in);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return (String) props.get("app_name");
+//    }
+
+    public static String getAppNameFromProperties(Class clazz) {
+        InputStream in = null;
+        try {
+            in = clazz.getResource("/io/celox/main/app.properties").openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Properties props = new Properties();
+        try {
+            props.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return (String) props.get("app_name");
     }
 
 }

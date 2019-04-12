@@ -27,6 +27,7 @@ import io.celox.utils.Const;
 import io.celox.utils.Conversion;
 import io.celox.utils.Shortcut;
 import io.celox.utils.Utils;
+import io.celox.utils.UtilsFormat;
 import javafx.animation.FadeTransition;
 import javafx.animation.FadeTransitionBuilder;
 import javafx.application.Application;
@@ -108,9 +109,10 @@ public class Main extends Application {
         mAmp = new Amplifier();
         stage = primaryStage;
 
-        ResourceBundle versionBundle = ResourceBundle.getBundle("app_config");
+//        ResourceBundle versionBundle = ResourceBundle.getBundle("app_config");
 
-        stage.setTitle(Const.APP_NAME + " " + versionBundle.getString("version"));
+        stage.setTitle(Utils.getAppNameFromProperties(getClass()) + "-" +
+                UtilsFormat.formatVersionCode(Utils.getVersionFromProperties(getClass())));
         stage.setScene(scene = new Scene(root, Const.INITIAL_WINDOW_WIDTH_MAIN, Const.INITIAL_WINDOW_HEIGHT_MAIN));
         initWindowSizes(stage);
 
@@ -124,7 +126,7 @@ public class Main extends Application {
         initOnCloseAction(stage);
 
         if (Setup.getAmpIp().isEmpty()) {
-//            mServiceConnect.start();
+            //            mServiceConnect.start();
         } else {
             mAmplifierIp = Setup.getAmpIp();
             mAmp.setIp(mAmplifierIp);
@@ -215,7 +217,9 @@ public class Main extends Application {
             execCommand(Commands.CMD_PWR(Amplifier.STANDBY));
         }
 
-        mRefreshGuiTask.cancel();
+        if (mRefreshGuiTask != null) {
+            mRefreshGuiTask.cancel();
+        }
         Platform.exit();
         System.exit(0);
     }

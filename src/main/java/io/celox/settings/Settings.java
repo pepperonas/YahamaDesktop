@@ -37,7 +37,7 @@ public class Settings {
     private Main mMain;
     private ResourceBundle mRbLang;
 
-    private JFXComboBox choiceBoxVolSteps, choiceBoxRefreshInterval;
+    private JFXComboBox<Double> choiceBoxVolSteps, choiceBoxRefreshInterval;
 
     private JFXCheckBox checkBoxPwrOffExit;
 
@@ -74,12 +74,12 @@ public class Settings {
         settingsStage.show();
 
         choiceBoxRefreshInterval = (JFXComboBox) root.lookup(Const.ID_CHOICE_BOX_REFRESH_INTERVAL);
-        int[] refreshIntervals = {1500, 3000, 5000, 10000, 30000};
-        for (int i : refreshIntervals) choiceBoxRefreshInterval.getItems().add(i);
+        Double[] refreshIntervals = {1500D, 3000D, 5000D, 10000D, 30000D};
+        for (Double d : refreshIntervals) choiceBoxRefreshInterval.getItems().add(d);
         choiceBoxRefreshInterval.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Setup.setAutoRefreshInterval((Integer) choiceBoxRefreshInterval.getValue());
+            Setup.setAutoRefreshInterval(choiceBoxRefreshInterval.getValue().intValue());
         });
-        choiceBoxRefreshInterval.setValue(Setup.getAutoRefreshInterval());
+        choiceBoxRefreshInterval.setValue((double) Setup.getAutoRefreshInterval());
 
         checkBoxPwrOffExit = (JFXCheckBox) root.lookup(Const.ID_CHECKBOX_PWR_OFF_EXIT);
         checkBoxPwrOffExit.setSelected(Setup.getPwrOffWhenExit());
@@ -92,9 +92,11 @@ public class Settings {
         double[] volSteps = {0.5d, 1.0d, 2.5d, 5.0d};
         for (double d : volSteps) choiceBoxVolSteps.getItems().add(d);
         choiceBoxVolSteps.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Setup.setVolSteps((Double) choiceBoxVolSteps.getValue());
-            mMain.getVolumeSlider().setBlockIncrement(Setup.getVolSteps());
-            Shortcut.setShortcutsForMain(mMain.getScene(), mMain.getStage(), mMain);
+            Setup.setVolSteps(choiceBoxVolSteps.getValue());
+            if (mMain != null) {
+                mMain.getVolumeSlider().setBlockIncrement(Setup.getVolSteps());
+                Shortcut.setShortcutsForMain(mMain.getScene(), mMain.getStage(), mMain);
+            }
         });
         choiceBoxVolSteps.setValue(Setup.getVolSteps());
 
